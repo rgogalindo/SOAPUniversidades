@@ -1,0 +1,47 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.universidades.com/universidad-ws"
+           targetNamespace="http://www.universidades.com/universidad-ws" elementFormDefault="qualified">
+           
+	<xs:complexType name="universidadInfo">
+		<xs:sequence>
+			<xs:element name="codigo" type="xs:int"/>
+			<xs:element name="nombre" type="xs:string"/>
+			<xs:element name="anho" type="xs:int"/>
+			<xs:element name="distrito" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>           
+    
+    <xs:complexType name="servicioStatus">
+    	<xs:sequence>
+    		<xs:element name="statusCode" type="xs:string"/>
+    		<xs:element name="mensaje" type="xs:string"/>
+    	</xs:sequence>
+    </xs:complexType>
+    
+    <xs:element name="getAllUniversidadesRequest">
+    	<xs:complexType/>
+    </xs:element>       
+    
+    <xs:element name="getAllUniversidadesResponse">
+    	<xs:complexType>
+    		<xs:sequence>
+    			<xs:element name="universidadInfo" type="tns:universidadInfo" maxOccurs="unbounded"/>
+    		</xs:sequence>
+    	</xs:complexType>
+    </xs:element>              
+    <xs:element name="addUniversidadRequest">
+    	<xs:complexType>
+    		<xs:sequence>
+    			<xs:element name="universidadInfo" type="tns:universidadInfo"/>
+    		</xs:sequence>
+    	</xs:complexType>
+    </xs:element>       
+    <xs:element name="addUniversidadResponse">
+    	<xs:complexType>
+    		<xs:sequence>
+    			<xs:element name="universidadInfo" type="tns:universidadInfo"/>
+    			<xs:element name="servicioStatus" type="tns:servicioStatus"/>
+    		</xs:sequence>
+    	</xs:complexType>
+    </xs:element>
+           
+</xs:schema>
