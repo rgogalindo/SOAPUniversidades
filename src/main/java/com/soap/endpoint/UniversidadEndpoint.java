@@ -16,9 +16,15 @@ import com.soap.entity.Universidad;
 import com.soap.service.UniversidadService;
 import com.universidades.jaxb.AddUniversidadRequest;
 import com.universidades.jaxb.AddUniversidadResponse;
+import com.universidades.jaxb.DeleteUniversidadByIdRequest;
+import com.universidades.jaxb.DeleteUniversidadByIdResponse;
 import com.universidades.jaxb.GetAllUniversidadesResponse;
+import com.universidades.jaxb.GetUniversidadByIdRequest;
+import com.universidades.jaxb.GetUniversidadByIdResponse;
 import com.universidades.jaxb.ServicioStatus;
 import com.universidades.jaxb.UniversidadInfo;
+import com.universidades.jaxb.UpdateUniversidadRequest;
+import com.universidades.jaxb.UpdateUniversidadResponse;
 
 @Endpoint
 public class UniversidadEndpoint {
@@ -70,6 +76,78 @@ public class UniversidadEndpoint {
 		respuesta.setUniversidadInfo(info);
 		status.setStatusCode("200");
 		status.setMensaje("Universidad agregada");
+		respuesta.setServicioStatus(status);
+		return respuesta;
+	}
+	
+	@PayloadRoot(namespace=NAMESPACE_URI, localPart="getUniversidadByIdRequest")
+	@ResponsePayload
+	/**
+	 * Obtener la entrada de una Universidad dado su ID/codigo
+	 * @param request Una peticion SOAP con el ID tipo número entero
+	 * @return Una respuesta SOAP con la Universidad tipo UniversidadInfo
+	 */
+	public GetUniversidadByIdResponse getUniversidadById(@RequestPayload GetUniversidadByIdRequest request) {
+		logger.trace("Se accedio al metodo para obtener una universidad dado su ID.");
+		GetUniversidadByIdResponse respuesta = new GetUniversidadByIdResponse();
+		Universidad uni = service.findByCodigo(request.getCodigo());
+		if (uni != null) {
+			UniversidadInfo info = new UniversidadInfo();
+			BeanUtils.copyProperties(uni, info);
+			respuesta.setUniversidadInfo(info);
+		}
+		return respuesta;
+	}
+	
+	@PayloadRoot(namespace=NAMESPACE_URI, localPart="updateUniversidadRequest")
+	@ResponsePayload
+	/**
+	 * Actualizar la entrada de una Universidad
+	 * @param request Una peticion SOAP con la informacion de la universidad tipo UniversidadInfo
+	 * @return Una respuesta SOAP con la informacion de la universidad actualizada tipo UniversidadInfo y el estado del servicio.
+	 */
+	public UpdateUniversidadResponse updateUniversidad(@RequestPayload UpdateUniversidadRequest request) {
+		logger.trace("Se accedio al metodo para actualizar la entrada de una universidad.");
+		UpdateUniversidadResponse respuesta = new UpdateUniversidadResponse();
+		ServicioStatus status = new ServicioStatus();
+		UniversidadInfo info = request.getUniversidadInfo();
+		Universidad check = service.findByCodigo(info.getCodigo());
+		if(check == null) {
+			status.setStatusCode("404");
+			status.setMensaje("La universidad no existe.");
+		} else {
+			Universidad uni = new Universidad();
+			BeanUtils.copyProperties(info, uni);
+			Universidad universidad = service.updateUniversidad(uni);
+			BeanUtils.copyProperties(universidad, info);
+			respuesta.setUniversidadInfo(info);
+			status.setMensaje("200");
+			status.setStatusCode("Universidad actualizada.");
+		}
+		respuesta.setServicioStatus(status);
+		return respuesta;
+	}
+	
+	@PayloadRoot(namespace=NAMESPACE_URI, localPart="deleteUniversidadByIdRequest")
+	@ResponsePayload
+	/**
+	 * Eliminar una entrada de la base de datos dado un ID.
+	 * @param request El ID tipo numero entero.
+	 * @return El estado de servicio.
+	 */
+	public DeleteUniversidadByIdResponse deleteUniversidadById(@RequestPayload DeleteUniversidadByIdRequest request) {
+		logger.trace("Se accedio al metodo para eliminar una universidad dado su ID.");
+		DeleteUniversidadByIdResponse respuesta = new DeleteUniversidadByIdResponse();
+		ServicioStatus status = new ServicioStatus();
+		Universidad check = service.findByCodigo(request.getCodigo());
+		if(check == null) {
+			status.setStatusCode("404");
+			status.setMensaje("La universidad no existe");
+		} else {
+			service.deleteUniversidadByCodigo(request.getCodigo());
+			status.setStatusCode("200");
+			status.setMensaje("Universidad eliminada");
+		}
 		respuesta.setServicioStatus(status);
 		return respuesta;
 	}

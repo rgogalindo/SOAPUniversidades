@@ -12,4 +12,5 @@ public interface UniversidadRepositorio extends CrudRepository<Universidad, Inte
 
 	Universidad findByCodigo(int codigo);
 	
+	void deleteByCodigo(int codigo);
 }

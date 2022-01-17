@@ -11,4 +11,8 @@ public interface UniversidadService {
 	Universidad findByCodigo(int codigo);
 	
 	Universidad saveUniversidad(Universidad universidad);
+	
+	Universidad updateUniversidad(Universidad universidad);
+	
+	void deleteUniversidadByCodigo(int codigo);
 }

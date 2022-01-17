@@ -27,7 +27,21 @@
     			<xs:element name="universidadInfo" type="tns:universidadInfo" maxOccurs="unbounded"/>
     		</xs:sequence>
     	</xs:complexType>
-    </xs:element>              
+    </xs:element>
+    <xs:element name="getUniversidadByIdRequest">
+    	<xs:complexType>
+    		<xs:sequence>
+    			<xs:element name="codigo" type="xs:int"/>
+    		</xs:sequence>
+    	</xs:complexType>
+    </xs:element>
+    <xs:element name="getUniversidadByIdResponse">
+    	<xs:complexType>
+    		<xs:sequence>
+    			<xs:element name="universidadInfo" type="tns:universidadInfo"/>
+    		</xs:sequence>
+    	</xs:complexType>
+    </xs:element>
     <xs:element name="addUniversidadRequest">
     	<xs:complexType>
     		<xs:sequence>
@@ -43,5 +57,34 @@
     		</xs:sequence>
     	</xs:complexType>
     </xs:element>
-           
+    <xs:element name="updateUniversidadRequest">
+    	<xs:complexType>
+    		<xs:sequence>
+    			<xs:element name="universidadInfo" type="tns:universidadInfo"/>
+    		</xs:sequence>
+    	</xs:complexType>
+    </xs:element>
+    <xs:element name="updateUniversidadResponse">
+    	<xs:complexType>
+    		<xs:sequence>
+    			<xs:element name="universidadInfo" type="tns:universidadInfo"/>
+    			<xs:element name="servicioStatus" type="tns:servicioStatus"/>
+    		</xs:sequence>
+    	</xs:complexType>
+    </xs:element>
+    <xs:element name="deleteUniversidadByIdRequest">
+    	<xs:complexType>
+    		<xs:sequence>
+    			<xs:element name="codigo" type="xs:int"/>
+    		</xs:sequence>
+    	</xs:complexType>
+    </xs:element>
+    <xs:element name="deleteUniversidadByIdResponse">
+    	<xs:complexType>
+    		<xs:sequence>
+    			<xs:element name="servicioStatus" type="tns:servicioStatus"/>
+    		</xs:sequence>
+    	</xs:complexType>
+    </xs:element>
+    
 </xs:schema>

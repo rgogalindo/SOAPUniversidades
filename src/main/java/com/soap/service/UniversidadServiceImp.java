@@ -46,4 +46,15 @@ public class UniversidadServiceImp implements UniversidadService{
 		return repo.findByCodigo(codigo);
 	}
 
+	@Override
+	public Universidad updateUniversidad(Universidad universidad) {
+		return repo.save(universidad);
+	}
+
+	@Override
+	@Transactional
+	public void deleteUniversidadByCodigo(int codigo) {
+		repo.deleteByCodigo(codigo);
+	}
+
 }
